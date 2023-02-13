@@ -29,7 +29,8 @@ export default function Home() {
         }
       })
       setOutput(data.edited)
-    } catch (err) {
+    } catch (err: any) {
+      console.log(err.response.data)
       alert('Error: ' + err)
     }
   }
