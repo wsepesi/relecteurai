@@ -28,6 +28,7 @@ export default function Home() {
           prompt: input
         }
       })
+      console.log(data)
       setOutput(data.edited)
     } catch (err: any) {
       console.log(err.response.data)
