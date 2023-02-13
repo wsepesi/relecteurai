@@ -1,7 +1,9 @@
 import { Button, TextField, Typography } from '@mui/material'
-import getOAIResponse, { estimateCost } from '../lib/oai'
+import axios, { AxiosResponse } from 'axios'
+import getOAIResponse, { estimateCost } from '../lib/oai-util'
 import { useEffect, useState } from 'react'
 
+import { Data } from './api/oai'
 import Head from 'next/head'
 import { Inter } from '@next/font/google'
 import styles from '@/styles/Home.module.css'
@@ -18,15 +20,18 @@ export default function Home() {
     setInput(e.target.value)
   }
 
-  const handleClick = async () => {
+  const useOAI = async () => {
+    // hit 'api/oai' endpoint with axios, and store results in data
     try {
-      const data = await getOAIResponse(input)
-      setOutput(data)
-    } catch (error) {
-      console.log(error)
-      alert('Error!')
+      const { data } = await axios.post<Data>('/api/oai', {
+        params: {
+          prompt: input
+        }
+      })
+      setOutput(data.edited)
+    } catch (err) {
+      alert('Error: ' + err)
     }
-    
   }
 
   useEffect(() => {
@@ -54,7 +59,7 @@ export default function Home() {
               value={input} 
               onChange={handleChange}
             />
-            <Button onClick={handleClick}>Edit</Button>
+            <Button onClick={useOAI}>Edit</Button>
           </div>
           <div>
             <TextField 

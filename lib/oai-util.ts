@@ -2,6 +2,10 @@ import { Configuration, OpenAIApi } from "openai";
 
 import GPT3Tokenizer from "gpt3-tokenizer";
 
+export type Prompt = {
+    prompt: string
+}
+
 function _getPrompt(input: string): string {
     const prompt = `Editez le prochain émail court en français que demande mon prof de français pour un lettre de recommandation pour une programme d'étudier a l'étranger. Améliorer la grammaire et le style pour semble comme un écrivain français:
 
