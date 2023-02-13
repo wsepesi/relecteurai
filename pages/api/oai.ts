@@ -33,7 +33,6 @@ export default async function handler(
     }
     catch (e: any) {
       // log error to server
-      console.log(e)
       res.status(400).json({ edited: e.message })
     }
    

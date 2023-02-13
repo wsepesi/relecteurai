@@ -35,7 +35,6 @@ function _getPrompt(input: string): string {
 }
 
 export default async function getOAIResponse(input: string): Promise<string> {
-    console.log(process.env.OPENAI_API_KEY)
     const configuration = new Configuration({
         apiKey: process.env.OPENAI_API_KEY,
     });
@@ -75,6 +74,4 @@ export async function estimateCost(input: string): Promise<string> {
     const tokenizer = new GPT3Tokenizer({ type: 'gpt3' });
     const { bpe } = tokenizer.encode(prompt);
     return `$${((2 * bpe.length / 1000) * 0.02).toFixed(3)}`
-
-    
 }
