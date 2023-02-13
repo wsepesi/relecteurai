@@ -28,10 +28,11 @@ export default function Home() {
           prompt: input
         }
       })
-      console.log(data)
+      console.log("data", data)
       setOutput(data.edited)
     } catch (err: any) {
-      console.log(err.response.data)
+      console.log("err", err)
+      console.log("err data", err.response.data)
       alert('Error: ' + err)
     }
   }

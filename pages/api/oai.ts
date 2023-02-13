@@ -22,7 +22,20 @@ export default async function handler(
     res.status(400).json({ edited: 'ERROR' })
   }
   else {
-    const response = await getOAIResponse(prompt)
-    res.status(200).json({ edited: response})
+    try {
+      const response = await getOAIResponse(prompt)
+      if (response === undefined) {
+        res.status(401).json({ edited: 'ERROR' })
+      }
+      else {
+        res.status(200).json({ edited: response})
+      }
+    }
+    catch (e: any) {
+      // log error to server
+      console.log(e)
+      res.status(400).json({ edited: e.message })
+    }
+   
   }
 }
