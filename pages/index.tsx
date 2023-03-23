@@ -1,8 +1,9 @@
-import { Button, TextField, Typography } from '@mui/material'
+import { Button, IconButton, TextField, Typography } from '@mui/material'
 import axios, { AxiosResponse } from 'axios'
 import getOAIResponse, { estimateCost } from '../lib/oai-util'
 import { useEffect, useState } from 'react'
 
+import ContentCopyIcon from '@mui/icons-material/ContentCopy';
 import { Data } from './api/oai'
 import Head from 'next/head'
 import { Inter } from '@next/font/google'
@@ -21,18 +22,14 @@ export default function Home() {
   }
 
   const useOAI = async () => {
-    // hit 'api/oai' endpoint with axios, and store results in data
     try {
       const { data } = await axios.post<Data>('/api/oai', {
         params: {
           prompt: input
         }
       })
-      // console.log("data", data)
       setOutput(data.edited)
     } catch (err: any) {
-      // console.log("err", err)
-      // console.log("err data", err.response.data)
       alert('Error: ' + err)
     }
   }
@@ -50,31 +47,44 @@ export default function Home() {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <main className={styles.main}>
-        <Typography variant="h1">Email Editor</Typography>
-        <div className={styles.inputs}>
-          <div>
+        <Typography variant="h3" className="max-h-[15vh]">Email Editor</Typography>
+        <div className="min-w-screen min-h-[80vh] flex flex-col justify-center items-center">
+          <div className='flex flex-row'>
             <TextField 
               id="outlined-basic" 
               label="Input" 
               variant="outlined" 
-              className={styles.input} 
+              className="max-w-[30vw] min-h-[60vh] min-w-[20vw]" 
               multiline 
+              rows={20}
               value={input} 
               onChange={handleChange}
             />
-            <Button onClick={useOAI}>Edit</Button>
-          </div>
-          <div>
             <TextField 
               disabled 
               id="outlined-basic" 
               label="Output" 
               variant="outlined" 
-              className={styles.input} 
+              className="max-w-[30vw] min-h-[60vh] min-w-[20vw]" 
               multiline 
+              rows={20}
               value={output}
             />
-            <Typography variant="h6">Estimated Cost: {cost}</Typography>
+            <IconButton
+              className="position relative top-[-30vh] right-10 hover:bg-none"
+              onClick={() => {
+                navigator.clipboard.writeText(output);
+              }}
+            >
+              <ContentCopyIcon />
+            </IconButton>
+            {/* add a copy button using an icon placed inside the Output textfield in the top right */}
+            
+
+          </div>
+          <div className='flex flex-row justify-between items-center min-w-[40vw]'>
+            <Button onClick={useOAI}>Edit</Button>
+            <Typography variant="body1">Estimated Cost: {cost}</Typography>
           </div>
         </div>
       </main>
