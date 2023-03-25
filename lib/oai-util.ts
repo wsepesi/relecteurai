@@ -50,7 +50,7 @@ export default async function getOAIResponse(input: string): Promise<string> {
         model: "text-davinci-003"
     })
 
-    const txt = response.data.choices[0].text
+    const txt = response.data.choices[0].text 
 
     // handle undefined by throwing error
     if (txt === undefined) {
@@ -62,7 +62,7 @@ export default async function getOAIResponse(input: string): Promise<string> {
         throw new Error("Empty response from OpenAI API")
     }
 
-    return txt
+    return txt.replace(/^\s+/g, '')
 }
 
 export async function estimateCost(input: string): Promise<string> {
