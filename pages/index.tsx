@@ -54,7 +54,7 @@ export default function Home() {
               id="outlined-basic" 
               label="Input" 
               variant="outlined" 
-              className="max-w-[30vw] min-h-[60vh] min-w-[20vw]" 
+              className="max-w-[40vw] min-h-[60vh] min-w-[30vw]" 
               multiline 
               rows={20}
               value={input} 
@@ -65,7 +65,7 @@ export default function Home() {
               id="outlined-basic" 
               label="Output" 
               variant="outlined" 
-              className="max-w-[30vw] min-h-[60vh] min-w-[20vw]" 
+              className="max-w-[40vw] min-h-[60vh] min-w-[30vw]" 
               multiline 
               rows={20}
               value={output}
