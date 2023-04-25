@@ -18,16 +18,34 @@ export default function Home() {
   const [cost, setCost] = useState('')
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    // console.log(e.target.value)
     setInput(e.target.value)
   }
 
   const useOAI = async () => {
     try {
-      const { data } = await axios.post<Data>('/api/oai', {
+      // const result = await fetch('/api/oai', {
+      //   method: 'GET',
+      //   params: {
+      //     'Content-Type': 'application/json'
+      //   },
+      //   // body: JSON.stringify({
+      //   //   prompt: input
+      //   // })
+      // })
+      const result = await axios.get('/api/oai', {
         params: {
           prompt: input
         }
       })
+      console.log(result)
+      const data = result.data as Data
+
+      // const { data } = await axios.post<Data>('/api/oai', {
+      //   params: {
+      //     prompt: input
+      //   }
+      // })
       setOutput(data.edited)
     } catch (err: any) {
       alert('Error: ' + err)
@@ -47,14 +65,20 @@ export default function Home() {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <main className={styles.main}>
-        <Typography variant="h3" className="max-h-[15vh]">Email Editor</Typography>
+        <Typography variant="h6" className="max-h-[15vh]">Email Editor</Typography>
         <div className="min-w-screen min-h-[80vh] flex flex-col justify-center items-center">
           <div className='flex flex-row'>
+            {/* <div className="min-w-[20vw]">
+              <ul>
+                <li>test</li>
+                <li>test</li>
+              </ul>
+            </div> */}
             <TextField 
               id="outlined-basic" 
               label="Input" 
               variant="outlined" 
-              className="max-w-[40vw] min-h-[60vh] min-w-[30vw]" 
+              className="min-h-[60vh] w-[30vw]" 
               multiline 
               rows={20}
               value={input} 
@@ -65,22 +89,25 @@ export default function Home() {
               id="outlined-basic" 
               label="Output" 
               variant="outlined" 
-              className="max-w-[40vw] min-h-[60vh] min-w-[30vw]" 
+              className="min-h-[60vh] w-[30vw]" 
               multiline 
               rows={20}
               value={output}
             />
             <IconButton
-              className="position relative top-[-30vh] right-10 hover:bg-none"
+              className="position relative top-[-30vh] right-10 hover:bg-none max-h-[5vh]"
               onClick={() => {
                 navigator.clipboard.writeText(output);
               }}
             >
               <ContentCopyIcon />
             </IconButton>
-            {/* add a copy button using an icon placed inside the Output textfield in the top right */}
-            
-
+            {/* <div className="min-w-[20vw]">
+              <ul>
+                <li>test</li>
+                <li>test</li>
+              </ul>
+            </div> */}
           </div>
           <div className='flex flex-row justify-between items-center min-w-[40vw]'>
             <Button onClick={useOAI}>Edit</Button>
